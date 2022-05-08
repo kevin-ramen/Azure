@@ -1,15 +1,31 @@
-# Echo server program
+#Socket module provides an interface to the Berkeley sockets API
+"""
+The primary socket API functions an methods are:
+socket()
+.bind()
+.listen()
+.accept()
+.connect()
+.connect_ex()
+.send()
+.recv()
+.close()
+"""
+# echo-server.py
+
 import socket
 
-HOST = ''                 # Symbolic name meaning all available interfaces
-PORT = 50007              # Arbitrary non-privileged port
+HOST = ""  # Standard loopback interface address (localhost)
+PORT = 65432  # Port to listen on (non-privileged ports are > 1023)
+
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind((HOST, PORT))
-    s.listen(1)
+    s.listen()
     conn, addr = s.accept()
     with conn:
-        print('Connected by', addr)
+        print(f"Connected by {addr}")
         while True:
             data = conn.recv(1024)
-            if not data: break
+            if not data:
+                break
             conn.sendall(data)
